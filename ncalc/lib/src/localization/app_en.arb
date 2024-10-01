@@ -1,6 +1,6 @@
 {
   "appTitle": "ncalc",
   "@appTitle": {
-    "description": "The title of the application"
+    "description": "little calculator"
   }
 }
