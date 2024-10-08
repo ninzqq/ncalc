@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ncalc/src/calculator/calculator_notifier.dart';
+import 'package:ncalc/src/calculator/calculator_button.dart';
 import 'package:ncalc/src/calculator/display.dart';
 import 'package:ncalc/src/settings/settings_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,50 +62,17 @@ class CalculatorBasicView extends ConsumerWidget {
     return Expanded(
       flex: 1,
       child: Padding(
-        padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: values
-              .map((value) => _buildButton(ref, value, calculator))
+              .map(
+                (value) => CalculatorButton(
+                  value: value,
+                  calculator: calculator,
+                ),
+              )
               .toList(),
-        ),
-      ),
-    );
-  }
-
-  // Helper method to build each button
-  Widget _buildButton(
-      WidgetRef ref, String value, CalculatorNotifier calculator) {
-    var calculatorState = ref.read(calculatorProvider);
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: InkWell(
-          onTap: () {
-            if (value == "C") {
-              calculator.clear();
-            } else if (value == ":)" || value == '(' || value == ')') {
-            } else if (value == "=") {
-              calculator.calculateExpression(calculatorState.input);
-            } else {
-              calculator.inputNumber(value);
-            }
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-            child: Center(
-              child: Text(
-                value,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 24),
-              ),
-            ),
-          ),
         ),
       ),
     );

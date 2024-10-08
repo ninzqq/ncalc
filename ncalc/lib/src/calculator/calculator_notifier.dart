@@ -22,17 +22,22 @@ class CalculatorState {
 }
 
 class CalculatorNotifier extends StateNotifier<CalculatorState> {
-  CalculatorNotifier() : super(CalculatorState(input: '0', output: '0'));
+  CalculatorNotifier() : super(CalculatorState(input: '0', output: ''));
 
   void inputNumber(String number) {
-    if (state.input.length >= 30) return; // Limit input length
+    if (state.input.length >= 20) return; // Limit input length
     if (state.input == '0') {
       state = state.copyWith(input: '');
     }
     state = state.copyWith(input: state.input + number);
+
+    var (result, isValid) = isValidFormula(state.input);
+    if (isValid) {
+      state = state.copyWith(output: result.toString());
+    }
   }
 
-  double calculateExpression(String input) {
+  (double, bool) calculateExpression(String input) {
     try {
       // Split the input by numbers and operators using a regular expression.
       List<String> tokens = input.split(RegExp(r'(?<=[-+*/])|(?=[-+*/])'));
@@ -40,6 +45,8 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       if (isOperator(tokens[0])) {
         tokens.insert(0, state.output);
       }
+
+      if (isOperator(tokens[tokens.length - 1])) return (0, false);
 
       // Step 1: Handle Multiplication and Division first
       List<String> intermediateTokens = [];
@@ -80,20 +87,19 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       }
 
       if (!hasDecimals(result)) {
-        state = state.copyWith(input: '0', output: result.toInt().toString());
+        state = state.copyWith(output: result.toInt().toString());
       } else {
-        state = state.copyWith(input: '0', output: result.toString());
+        state = state.copyWith(output: result.toString());
       }
-
-      return result;
+      return (result, true);
     } catch (e) {
-      state = state.copyWith(input: '0', output: 'SYNTAX ERROR');
-      return 0;
+      state = state.copyWith(output: 'SYNTAX ERROR');
+      return (0, false);
     }
   }
 
   void clear() {
-    state = state.copyWith(input: '0', output: '0');
+    state = state.copyWith(input: '0', output: '');
   }
 
   bool hasDecimals(double num) {
@@ -102,6 +108,15 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
 
   bool isOperator(token) {
     return token == '+' || token == '-' || token == '*' || token == '/';
+  }
+
+  (double, bool) isValidFormula(String input) {
+    var (result, isValid) = calculateExpression(input);
+    if (isValid) {
+      return (result, true);
+    } else {
+      return (0, false);
+    }
   }
 }
 

@@ -10,13 +10,30 @@ class Display extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        _buildDisplayRow(input),
-        _buildDisplayRow(output),
+        _buildDisplayRow(context, input),
+        _buildDisplayRow(context, output),
+        SizedBox(
+          height: 48,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 23.0, right: 23.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('History'),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('<-'),
+                )
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildDisplayRow(inout) {
+  Widget _buildDisplayRow(context, inout) {
+    TextEditingController controller = TextEditingController();
     return Padding(
       padding: const EdgeInsets.only(
         top: 0,
@@ -26,30 +43,27 @@ class Display extends ConsumerWidget {
       ),
       child: Container(
         height: 100,
-        width: double.infinity,
+        //width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.primaries.last,
-            width: 2.0,
+            width: 1.0,
           ),
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(right: 4.0),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerRight,
-            child: Text(
-              inout,
-              style: const TextStyle(
-                fontSize: 48,
-                fontFamily: 'Roboto',
-              ),
-              textAlign: TextAlign.end,
-            ),
+        child: TextField(
+          maxLines: 1,
+          //expands: false,
+          keyboardType: TextInputType.none,
+          controller: controller..text = inout,
+          style: const TextStyle(
+            fontSize: 32,
+            fontFamily: 'Roboto',
           ),
+          textAlign: TextAlign.end,
+          decoration: const InputDecoration.collapsed(hintText: ''),
         ),
       ),
     );
