@@ -25,7 +25,7 @@ class CalculatorButton extends ConsumerWidget {
               calculator.clear();
             } else if (value == ":)" || value == '(' || value == ')') {
             } else if (value == "=") {
-              calculator.calculateExpression(calculatorState.input);
+              calculator.calculateExpression(calculatorState.input, true);
             } else {
               calculator.inputNumber(value);
             }

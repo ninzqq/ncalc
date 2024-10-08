@@ -37,7 +37,7 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
     }
   }
 
-  (double, bool) calculateExpression(String input) {
+  (double, bool) calculateExpression(String input, bool equalsButtonPressed) {
     try {
       // Split the input by numbers and operators using a regular expression.
       List<String> tokens = input.split(RegExp(r'(?<=[-+*/])|(?=[-+*/])'));
@@ -91,6 +91,11 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       } else {
         state = state.copyWith(output: result.toString());
       }
+
+      if (equalsButtonPressed) {
+        state = state.copyWith(input: '0');
+      }
+
       return (result, true);
     } catch (e) {
       state = state.copyWith(output: 'SYNTAX ERROR');
@@ -111,7 +116,7 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
   }
 
   (double, bool) isValidFormula(String input) {
-    var (result, isValid) = calculateExpression(input);
+    var (result, isValid) = calculateExpression(input, false);
     if (isValid) {
       return (result, true);
     } else {
