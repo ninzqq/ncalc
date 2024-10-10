@@ -10,7 +10,6 @@ class CalculatorBasicView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final calculatorState = ref.watch(calculatorProvider);
     final calculator = ref.read(calculatorProvider.notifier);
 
     return SafeArea(
@@ -33,10 +32,7 @@ class CalculatorBasicView extends ConsumerWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Display(
-                input: calculatorState.input,
-                output: calculatorState.output,
-              ),
+              const Display(),
               Expanded(
                 flex: 3,
                 child: Column(

@@ -3,12 +3,10 @@ import 'package:ncalc/src/calculator/calculator_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CalculatorButton extends ConsumerWidget {
-  //final WidgetRef ref;
   final String value;
   final CalculatorNotifier calculator;
   const CalculatorButton({
     super.key,
-    //required this.ref,
     required this.value,
     required this.calculator,
   });
@@ -25,9 +23,10 @@ class CalculatorButton extends ConsumerWidget {
               calculator.clear();
             } else if (value == ":)" || value == '(' || value == ')') {
             } else if (value == "=") {
-              calculator.calculateExpression(calculatorState.input, true);
+              calculator.calculateExpression(
+                  calculatorState.inputController.text, true);
             } else {
-              calculator.inputNumber(value);
+              calculator.addCharacter(value);
             }
           },
           child: Container(

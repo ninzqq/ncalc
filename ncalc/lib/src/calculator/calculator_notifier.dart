@@ -2,38 +2,73 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CalculatorState {
-  final String input;
-  final String output;
+  final TextEditingController inputController;
+  final TextEditingController outputController;
 
   CalculatorState({
-    required this.input,
-    required this.output,
+    required this.inputController,
+    required this.outputController,
   });
 
   CalculatorState copyWith({
-    String? input,
-    String? output,
+    TextEditingController? inputController,
+    TextEditingController? outputController,
   }) {
     return CalculatorState(
-      input: input ?? this.input,
-      output: output ?? this.output,
+      inputController: inputController ?? this.inputController,
+      outputController: outputController ?? this.outputController,
     );
   }
 }
 
 class CalculatorNotifier extends StateNotifier<CalculatorState> {
-  CalculatorNotifier() : super(CalculatorState(input: '0', output: ''));
+  CalculatorNotifier()
+      : super(
+          CalculatorState(
+            inputController: TextEditingController(),
+            outputController: TextEditingController(),
+          ),
+        );
 
-  void inputNumber(String number) {
-    if (state.input.length >= 20) return; // Limit input length
-    if (state.input == '0') {
-      state = state.copyWith(input: '');
+  void addCharacter(String character) {
+    // Continue the formula if the output is not empty
+    var inputField = state.inputController;
+    var outputField = state.outputController;
+
+    if (inputField.text.isEmpty) {
+      if (outputField.text.isEmpty) {
+        inputField.text = outputField.text;
+      }
     }
-    state = state.copyWith(input: state.input + number);
 
-    var (result, isValid) = isValidFormula(state.input);
+    final text = inputField.text;
+    final TextSelection textSelection;
+
+    // If the user hasn't selected any text, add the character at the end
+    if (inputField.selection.start == -1 && inputField.selection.end == -1) {
+      inputField.selection = TextSelection.fromPosition(
+        TextPosition(offset: text.length),
+      );
+      textSelection = inputField.selection;
+    } else {
+      textSelection = inputField.selection;
+    }
+    final newText = text.replaceRange(
+      textSelection.start,
+      textSelection.end,
+      character,
+    );
+
+    inputField.text = newText;
+    inputField.selection = textSelection.copyWith(
+      baseOffset: textSelection.start + character.length,
+      extentOffset: textSelection.start + character.length,
+    );
+
+    // Dynamically calculate the result as the user types
+    var (result, isValid) = isValidFormula(newText);
     if (isValid) {
-      state = state.copyWith(output: result.toString());
+      outputField.text = result.toString();
     }
   }
 
@@ -42,8 +77,8 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       // Split the input by numbers and operators using a regular expression.
       List<String> tokens = input.split(RegExp(r'(?<=[-+*/])|(?=[-+*/])'));
 
-      if (isOperator(tokens[0])) {
-        tokens.insert(0, state.output);
+      if (isOperator(tokens[0]) && state.outputController.text.isNotEmpty) {
+        tokens.insert(0, state.outputController.text);
       }
 
       if (isOperator(tokens[tokens.length - 1])) return (0, false);
@@ -87,24 +122,25 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       }
 
       if (!hasDecimals(result)) {
-        state = state.copyWith(output: result.toInt().toString());
+        state.outputController.text = result.toInt().toString();
       } else {
-        state = state.copyWith(output: result.toString());
+        state.outputController.text = result.toString();
       }
 
       if (equalsButtonPressed) {
-        state = state.copyWith(input: '0');
+        state.inputController.text = '';
       }
 
       return (result, true);
     } catch (e) {
-      state = state.copyWith(output: 'SYNTAX ERROR');
+      state.outputController.text = 'SYNTAX ERROR';
       return (0, false);
     }
   }
 
   void clear() {
-    state = state.copyWith(input: '0', output: '');
+    state.inputController.text = '';
+    state.outputController.text = '';
   }
 
   bool hasDecimals(double num) {

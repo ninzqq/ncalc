@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ncalc/src/calculator/calculator_notifier.dart';
 
 class Display extends ConsumerWidget {
-  final String input;
-  final String output;
-  const Display({super.key, required this.input, required this.output});
+  const Display({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        _buildDisplayRow(context, input),
-        _buildDisplayRow(context, output),
+        _buildDisplayRow(context, ref, true),
+        _buildDisplayRow(context, ref, false),
         SizedBox(
           height: 48,
           child: Padding(
@@ -32,8 +31,10 @@ class Display extends ConsumerWidget {
     );
   }
 
-  Widget _buildDisplayRow(context, inout) {
-    TextEditingController controller = TextEditingController();
+  Widget _buildDisplayRow(context, ref, isInput) {
+    var calculatorState = ref.watch(calculatorProvider);
+    TextEditingController inputController = calculatorState.inputController;
+    TextEditingController outputController = calculatorState.outputController;
     return Padding(
       padding: const EdgeInsets.only(
         top: 0,
@@ -42,28 +43,19 @@ class Display extends ConsumerWidget {
         bottom: 8.0,
       ),
       child: Container(
+        color: Colors.black,
         height: 100,
-        //width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.primaries.last,
-            width: 1.0,
-          ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
         child: TextField(
           maxLines: 1,
           //expands: false,
           keyboardType: TextInputType.none,
-          controller: controller..text = inout,
-          style: const TextStyle(
-            fontSize: 32,
+          controller: isInput ? inputController : outputController,
+          style: TextStyle(
+            fontSize: isInput ? 32 : 24,
             fontFamily: 'Roboto',
           ),
           textAlign: TextAlign.end,
-          decoration: const InputDecoration.collapsed(hintText: ''),
+          decoration: const InputDecoration.collapsed(hintText: '0'),
         ),
       ),
     );
