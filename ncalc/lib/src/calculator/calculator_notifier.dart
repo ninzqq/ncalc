@@ -70,7 +70,9 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
   }
 
   void removeCharacterFromCursorPosition() {
-    var inputField = state.inputController;
+    TextEditingController inputField = state.inputController;
+
+    if (inputField.text.isEmpty) return;
 
     final text = inputField.text;
     final TextSelection textSelection;
@@ -190,6 +192,12 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
 
   void updateOutputField(String text) {
     var outputField = state.outputController;
+
+    if (text.isEmpty) {
+      outputField.text = '';
+      return;
+    }
+
     var (result, isValid) = isValidFormula(text);
     if (isValid) {
       outputField.text = result.toString();
