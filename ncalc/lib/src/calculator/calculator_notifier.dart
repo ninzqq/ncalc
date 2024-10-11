@@ -104,8 +104,8 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
 
   (double, bool) calculateExpression(String input, bool equalsButtonPressed) {
     try {
-      // Split the input by numbers and operators using a regular expression.
-      List<String> tokens = input.split(RegExp(r'(?<=[-+*/])|(?=[-+*/])'));
+      // Split the input by numbers, operators, and parentheses using a regular expression.
+      List<String> tokens = input.split(RegExp(r'(?<=[-+*/()])|(?=[-+*/()])'));
 
       if (isOperator(tokens[0]) && state.outputController.text.isNotEmpty) {
         tokens.insert(0, state.outputController.text);
@@ -113,43 +113,43 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
 
       if (isOperator(tokens[tokens.length - 1])) return (0, false);
 
-      // Step 1: Handle Multiplication and Division first
-      List<String> intermediateTokens = [];
-      double currentValue =
-          double.parse(tokens[0]); // Start with the first number
+      List<String> operators = [];
+      List<double> operands = [];
 
-      for (int i = 1; i < tokens.length; i += 2) {
-        String operator = tokens[i];
-        double nextValue = double.parse(tokens[i + 1]);
-
-        if (operator == "*") {
-          currentValue *= nextValue;
-        } else if (operator == "/") {
-          currentValue /= nextValue;
-        } else {
-          // If it's + or -, we save the current value and the operator
-          intermediateTokens.add(currentValue.toString());
-          intermediateTokens.add(operator);
-          currentValue = nextValue; // Update current value with the next number
+      for (String token in tokens) {
+        if (isNumeric(token)) {
+          operands.add(double.parse(token));
+        } else if (token == '(') {
+          operators.add(token);
+        } else if (token == ')') {
+          while (operators.isNotEmpty && operators.last != '(') {
+            String operator = operators.removeLast();
+            double b = operands.removeLast();
+            double a = operands.removeLast();
+            operands.add(applyOperator(a, b, operator));
+          }
+          operators.removeLast(); // Remove the '('
+        } else if (isOperator(token)) {
+          while (operators.isNotEmpty &&
+              precedence(operators.last) >= precedence(token)) {
+            String operator = operators.removeLast();
+            double b = operands.removeLast();
+            double a = operands.removeLast();
+            operands.add(applyOperator(a, b, operator));
+          }
+          operators.add(token);
         }
       }
 
-      // Don't forget to add the last value after handling * and /
-      intermediateTokens.add(currentValue.toString());
-
-      // Step 2: Handle Addition and Subtraction
-      double result = double.parse(intermediateTokens[0]);
-
-      for (int i = 1; i < intermediateTokens.length; i += 2) {
-        String operator = intermediateTokens[i];
-        double nextValue = double.parse(intermediateTokens[i + 1]);
-
-        if (operator == "+") {
-          result += nextValue;
-        } else if (operator == "-") {
-          result -= nextValue;
-        }
+      // Apply remaining operators
+      while (operators.isNotEmpty) {
+        String operator = operators.removeLast();
+        double b = operands.removeLast();
+        double a = operands.removeLast();
+        operands.add(applyOperator(a, b, operator));
       }
+
+      double result = operands.last;
 
       if (!hasDecimals(result)) {
         state.outputController.text = result.toInt().toString();
@@ -173,23 +173,6 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
     state.outputController.text = '';
   }
 
-  bool hasDecimals(double num) {
-    return num % 1 != 0;
-  }
-
-  bool isOperator(token) {
-    return token == '+' || token == '-' || token == '*' || token == '/';
-  }
-
-  (double, bool) isValidFormula(String input) {
-    var (result, isValid) = calculateExpression(input, false);
-    if (isValid) {
-      return (result, true);
-    } else {
-      return (0, false);
-    }
-  }
-
   void updateOutputField(String text) {
     var outputField = state.outputController;
 
@@ -201,6 +184,49 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
     var (result, isValid) = isValidFormula(text);
     if (isValid) {
       outputField.text = result.toString();
+    }
+  }
+
+  // Helper functions
+  bool hasDecimals(double num) {
+    return num % 1 != 0;
+  }
+
+  (double, bool) isValidFormula(String input) {
+    var (result, isValid) = calculateExpression(input, false);
+    if (isValid) {
+      return (result, true);
+    } else {
+      return (0, false);
+    }
+  }
+
+  bool isNumeric(String str) {
+    return double.tryParse(str) != null;
+  }
+
+  bool isOperator(String str) {
+    return ['+', '-', '*', '/'].contains(str);
+  }
+
+  int precedence(String operator) {
+    if (operator == '+' || operator == '-') return 1;
+    if (operator == '*' || operator == '/') return 2;
+    return 0;
+  }
+
+  double applyOperator(double a, double b, String operator) {
+    switch (operator) {
+      case '+':
+        return a + b;
+      case '-':
+        return a - b;
+      case '*':
+        return a * b;
+      case '/':
+        return a / b;
+      default:
+        throw ArgumentError('Invalid operator');
     }
   }
 }

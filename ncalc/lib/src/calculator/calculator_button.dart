@@ -21,7 +21,7 @@ class CalculatorButton extends ConsumerWidget {
           onTap: () {
             if (value == "C") {
               calculator.clear();
-            } else if (value == ":)" || value == '(' || value == ')') {
+            } else if (value == ":)") {
             } else if (value == "=") {
               calculator.calculateExpression(
                   calculatorState.inputController.text, true);
