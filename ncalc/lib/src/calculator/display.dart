@@ -7,6 +7,8 @@ class Display extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var calculator = ref.watch(calculatorProvider.notifier);
+
     return Column(
       children: [
         _buildDisplayRow(context, ref, true),
@@ -20,7 +22,9 @@ class Display extends ConsumerWidget {
               children: [
                 const Text('History'),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    calculator.removeCharacterFromCursorPosition();
+                  },
                   child: const Text('<-'),
                 )
               ],

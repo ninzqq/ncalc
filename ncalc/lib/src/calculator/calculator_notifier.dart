@@ -53,6 +53,7 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
     } else {
       textSelection = inputField.selection;
     }
+
     final newText = text.replaceRange(
       textSelection.start,
       textSelection.end,
@@ -63,6 +64,37 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
     inputField.selection = textSelection.copyWith(
       baseOffset: textSelection.start + character.length,
       extentOffset: textSelection.start + character.length,
+    );
+
+    updateOutputField(newText);
+  }
+
+  void removeCharacterFromCursorPosition() {
+    var inputField = state.inputController;
+
+    final text = inputField.text;
+    final TextSelection textSelection;
+
+    // If the user hasn't selected any text, add the selection at the end
+    if (inputField.selection.start == -1 && inputField.selection.end == -1) {
+      inputField.selection = TextSelection.fromPosition(
+        TextPosition(offset: text.length),
+      );
+      textSelection = inputField.selection;
+    } else {
+      textSelection = inputField.selection;
+    }
+
+    final newText = text.replaceRange(
+      textSelection.start - 1,
+      textSelection.end,
+      '',
+    );
+
+    inputField.text = newText;
+    inputField.selection = textSelection.copyWith(
+      baseOffset: textSelection.start - 1,
+      extentOffset: textSelection.start - 1,
     );
 
     updateOutputField(newText);
