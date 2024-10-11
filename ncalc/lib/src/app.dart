@@ -58,8 +58,17 @@ class MyApp extends StatelessWidget {
             textTheme: const TextTheme(
               bodyMedium: TextStyle(color: Colors.black87),
             ),
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Colors.cyan,
+              secondary: Colors.white,
+            ),
           ),
-          darkTheme: ThemeData.dark(),
+          darkTheme: ThemeData(
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Colors.cyan,
+              secondary: Colors.black87,
+            ),
+          ),
           themeMode: settingsController.themeMode,
 
           // Define a function to handle named routes in order to support
