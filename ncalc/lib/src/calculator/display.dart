@@ -42,8 +42,7 @@ class Display extends ConsumerWidget {
         right: 20,
         bottom: 8.0,
       ),
-      child: Container(
-        color: Colors.black,
+      child: SizedBox(
         height: 100,
         child: TextField(
           maxLines: 1,

@@ -26,7 +26,7 @@ class CalculatorButton extends ConsumerWidget {
               calculator.calculateExpression(
                   calculatorState.inputController.text, true);
             } else {
-              calculator.addCharacter(value);
+              calculator.addCharacterToCursorPosition(value);
             }
           },
           child: Container(

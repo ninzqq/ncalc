@@ -30,13 +30,13 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
           ),
         );
 
-  void addCharacter(String character) {
-    // Continue the formula if the output is not empty
+  void addCharacterToCursorPosition(String character) {
     var inputField = state.inputController;
     var outputField = state.outputController;
 
+    // Continue the formula if the output is not empty
     if (inputField.text.isEmpty) {
-      if (outputField.text.isEmpty) {
+      if (outputField.text.isNotEmpty) {
         inputField.text = outputField.text;
       }
     }
@@ -65,11 +65,7 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       extentOffset: textSelection.start + character.length,
     );
 
-    // Dynamically calculate the result as the user types
-    var (result, isValid) = isValidFormula(newText);
-    if (isValid) {
-      outputField.text = result.toString();
-    }
+    updateOutputField(newText);
   }
 
   (double, bool) calculateExpression(String input, bool equalsButtonPressed) {
@@ -157,6 +153,14 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       return (result, true);
     } else {
       return (0, false);
+    }
+  }
+
+  void updateOutputField(String text) {
+    var outputField = state.outputController;
+    var (result, isValid) = isValidFormula(text);
+    if (isValid) {
+      outputField.text = result.toString();
     }
   }
 }
