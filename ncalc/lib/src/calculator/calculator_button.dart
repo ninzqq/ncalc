@@ -29,10 +29,10 @@ class CalculatorButton extends ConsumerWidget {
               calculator.addCharacterToCursorPosition(value);
             }
           },
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.transparent),
-              borderRadius: const BorderRadius.all(
+          child: Ink(
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.all(
                 Radius.circular(8),
               ),
             ),

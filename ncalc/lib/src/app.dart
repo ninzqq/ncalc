@@ -64,10 +64,17 @@ class MyApp extends StatelessWidget {
             ),
           ),
           darkTheme: ThemeData(
-            colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: Colors.cyan.shade500,
-              secondary: Colors.black87,
+            textTheme: const TextTheme(
+              bodyMedium: TextStyle(color: Colors.white),
             ),
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Colors.pink,
+              secondary: const Color.fromARGB(255, 68, 1, 80),
+            ),
+            //colorScheme: ColorScheme.fromSwatch().copyWith(
+            //  primary: Colors.cyan.shade500,
+            //  secondary: Colors.black87,
+            //),
           ),
           themeMode: settingsController.themeMode,
 
