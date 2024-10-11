@@ -28,9 +28,13 @@ class Display extends ConsumerWidget {
           _buildDisplayRow(context, ref, true),
           _buildDisplayRow(context, ref, false),
           SizedBox(
-            height: 48,
+            height: 44,
             child: Padding(
-              padding: const EdgeInsets.only(left: 23.0, right: 23.0),
+              padding: const EdgeInsets.only(
+                left: 23.0,
+                right: 23.0,
+                bottom: 8,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -39,6 +43,10 @@ class Display extends ConsumerWidget {
                     onPressed: () {
                       calculator.removeCharacterFromCursorPosition();
                     },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: theme.colorScheme.secondary,
+                      backgroundColor: theme.colorScheme.primary,
+                    ),
                     child: const Icon(Icons.backspace),
                   )
                 ],
@@ -53,10 +61,10 @@ class Display extends ConsumerWidget {
   Widget _buildTitleRow(context, ref) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 20,
-        left: 20,
-        right: 20,
-        bottom: 8.0,
+        top: 0,
+        left: 16,
+        right: 16,
+        bottom: 0,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,15 +101,15 @@ class Display extends ConsumerWidget {
     var calculatorState = ref.watch(calculatorProvider);
     TextEditingController inputController = calculatorState.inputController;
     TextEditingController outputController = calculatorState.outputController;
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 0,
-        left: 20,
-        right: 20,
-        bottom: 8.0,
-      ),
-      child: SizedBox(
-        height: 100,
+    return SizedBox(
+      height: 80,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 0,
+          left: 20,
+          right: 20,
+          bottom: 8.0,
+        ),
         child: TextField(
           readOnly: !isInput,
           maxLines: 1,
@@ -109,7 +117,7 @@ class Display extends ConsumerWidget {
           keyboardType: TextInputType.none,
           controller: isInput ? inputController : outputController,
           style: TextStyle(
-            fontSize: isInput ? 32 : 24,
+            fontSize: isInput ? 44 : 32,
             fontFamily: 'Roboto',
           ),
           textAlign: TextAlign.end,

@@ -40,7 +40,10 @@ class CalculatorButton extends ConsumerWidget {
               child: Text(
                 value,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 32),
+                style: const TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),

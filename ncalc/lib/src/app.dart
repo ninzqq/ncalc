@@ -59,13 +59,13 @@ class MyApp extends StatelessWidget {
               bodyMedium: TextStyle(color: Colors.black87),
             ),
             colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: Colors.cyan,
+              primary: Colors.cyan.shade500,
               secondary: Colors.white,
             ),
           ),
           darkTheme: ThemeData(
             colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: Colors.cyan,
+              primary: Colors.cyan.shade500,
               secondary: Colors.black87,
             ),
           ),
