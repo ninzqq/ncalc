@@ -104,6 +104,8 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
 
   (double, bool) calculateExpression(String input, bool equalsButtonPressed) {
     try {
+      if (input.isEmpty) return (0, false);
+
       // Split the input by numbers, operators, and parentheses using a regular expression.
       List<String> tokens = input.split(RegExp(r'(?<=[-+*/()])|(?=[-+*/()])'));
 
