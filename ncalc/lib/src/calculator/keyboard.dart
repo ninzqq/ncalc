@@ -12,9 +12,9 @@ class Keyboard extends ConsumerWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment.bottomLeft,
-            radius: 2.6,
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
             colors: [
               theme.colorScheme.primary,
               theme.colorScheme.secondary,

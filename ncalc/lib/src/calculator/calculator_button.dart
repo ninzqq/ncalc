@@ -31,7 +31,7 @@ class CalculatorButton extends ConsumerWidget {
           },
           child: Ink(
             decoration: const BoxDecoration(
-              color: Colors.black,
+              color: Colors.transparent,
               borderRadius: BorderRadius.all(
                 Radius.circular(8),
               ),

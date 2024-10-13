@@ -13,12 +13,12 @@ class Display extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment.bottomCenter,
-          radius: 1.9,
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomRight,
           colors: [
             theme.colorScheme.primary,
-            theme.colorScheme.secondary,
+            theme.colorScheme.surfaceBright,
           ],
         ),
       ),
@@ -44,7 +44,7 @@ class Display extends ConsumerWidget {
                       calculator.removeCharacterFromCursorPosition();
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: theme.colorScheme.secondary,
+                      foregroundColor: theme.colorScheme.primaryFixed,
                       backgroundColor: theme.colorScheme.primary,
                     ),
                     child: const Icon(Icons.backspace),
@@ -59,6 +59,7 @@ class Display extends ConsumerWidget {
   }
 
   Widget _buildTitleRow(context, ref) {
+    var theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(
         top: 0,
@@ -85,6 +86,7 @@ class Display extends ConsumerWidget {
           ),
           IconButton(
             icon: const Icon(Icons.settings),
+            color: theme.colorScheme.primaryFixed,
             onPressed: () {
               // Navigate to the settings page. If the user leaves and returns
               // to the app after it has been killed while running in the
@@ -101,8 +103,10 @@ class Display extends ConsumerWidget {
     var calculatorState = ref.watch(calculatorProvider);
     TextEditingController inputController = calculatorState.inputController;
     TextEditingController outputController = calculatorState.outputController;
+    var theme = Theme.of(context);
+    var screenSize = MediaQuery.of(context).size;
     return SizedBox(
-      height: 80,
+      height: scale(screenSize.width),
       child: Padding(
         padding: const EdgeInsets.only(
           top: 0,
@@ -119,11 +123,30 @@ class Display extends ConsumerWidget {
           style: TextStyle(
             fontSize: isInput ? 44 : 32,
             fontFamily: 'Roboto',
+            color: theme.colorScheme.primaryFixed,
           ),
           textAlign: TextAlign.end,
-          decoration: const InputDecoration.collapsed(hintText: '0'),
+          decoration: InputDecoration.collapsed(
+            hintText: '0',
+            hintStyle: TextStyle(
+              color: theme.colorScheme.primaryFixed,
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  double scale(double value) {
+    double min = 80;
+    double max = 100;
+    double result = (value - min) / (max - min) + 30;
+    if (result < 80) {
+      return 80;
+    } else if (result > 100) {
+      return 100;
+    } else {
+      return result;
+    }
   }
 }

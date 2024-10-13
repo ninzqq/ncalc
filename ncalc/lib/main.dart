@@ -17,5 +17,5 @@ void main() async {
   // Run the app and pass in the SettingsController. The app listens to the
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
-  runApp(ProviderScope(child: MyApp(settingsController: settingsController)));
+  runApp(ProviderScope(child: NCalc(settingsController: settingsController)));
 }

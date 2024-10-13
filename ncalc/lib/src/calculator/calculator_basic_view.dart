@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CalculatorBasicView extends ConsumerWidget {
   const CalculatorBasicView({super.key});
 
+  static const routeName = '/calculator';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const SafeArea(

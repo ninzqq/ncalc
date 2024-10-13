@@ -19,6 +19,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
 
   flutter_lints: ^4.0.0
 
@@ -31,3 +32,8 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/ncalc_logo.png"
