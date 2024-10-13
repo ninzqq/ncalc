@@ -104,9 +104,8 @@ class Display extends ConsumerWidget {
     TextEditingController inputController = calculatorState.inputController;
     TextEditingController outputController = calculatorState.outputController;
     var theme = Theme.of(context);
-    var screenSize = MediaQuery.of(context).size;
     return SizedBox(
-      height: scale(screenSize.width),
+      height: 100,
       child: Padding(
         padding: const EdgeInsets.only(
           top: 0,
@@ -123,30 +122,17 @@ class Display extends ConsumerWidget {
           style: TextStyle(
             fontSize: isInput ? 44 : 32,
             fontFamily: 'Roboto',
-            color: theme.colorScheme.primaryFixed,
+            color: Colors.white70,
           ),
           textAlign: TextAlign.end,
-          decoration: InputDecoration.collapsed(
+          decoration: const InputDecoration.collapsed(
             hintText: '0',
             hintStyle: TextStyle(
-              color: theme.colorScheme.primaryFixed,
+              color: Colors.white70,
             ),
           ),
         ),
       ),
     );
-  }
-
-  double scale(double value) {
-    double min = 80;
-    double max = 100;
-    double result = (value - min) / (max - min) + 30;
-    if (result < 80) {
-      return 80;
-    } else if (result > 100) {
-      return 100;
-    } else {
-      return result;
-    }
   }
 }
