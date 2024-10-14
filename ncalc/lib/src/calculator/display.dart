@@ -17,7 +17,7 @@ class Display extends ConsumerWidget {
           begin: Alignment.topRight,
           end: Alignment.bottomRight,
           colors: [
-            theme.colorScheme.primary,
+            theme.colorScheme.surface,
             theme.colorScheme.surfaceBright,
           ],
         ),

@@ -64,7 +64,8 @@ class NCalc extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: Colors.cyan.shade500,
               secondary: Colors.grey.shade300,
-              surfaceBright: Colors.grey.shade200,
+              surface: Colors.cyan.shade500, // background color "dark"
+              surfaceBright: Colors.grey.shade200, // background color "light"
               primaryFixed: Colors.black,
             ),
           ),
@@ -78,8 +79,11 @@ class NCalc extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: const Color.fromARGB(255, 20, 25, 46),
               secondary: const Color.fromARGB(255, 23, 60, 114),
-              surfaceBright: const Color.fromARGB(255, 40, 78, 136),
-              primaryFixed: Colors.white54, // text color
+              surface: const Color.fromARGB(
+                  255, 20, 25, 46), // background color "dark"
+              surfaceBright: const Color.fromARGB(
+                  255, 40, 78, 136), // background color "light"
+              primaryFixed: Colors.white54,
             ),
             //colorScheme: ColorScheme.fromSwatch().copyWith(
             //  primary: Colors.cyan.shade500,

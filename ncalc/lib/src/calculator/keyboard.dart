@@ -16,8 +16,8 @@ class Keyboard extends ConsumerWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              theme.colorScheme.primary,
-              theme.colorScheme.secondary,
+              theme.colorScheme.surface,
+              theme.colorScheme.surfaceBright,
             ],
           ),
         ),
