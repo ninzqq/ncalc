@@ -54,6 +54,15 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       textSelection = inputField.selection;
     }
 
+    if (character == '(') {
+      if (inputField.text.isNotEmpty) {
+        final previousCharacter = text[textSelection.start - 1];
+        if (isNumeric(previousCharacter) || previousCharacter == ')') {
+          character = '*(';
+        }
+      }
+    }
+
     final newText = text.replaceRange(
       textSelection.start,
       textSelection.end,
