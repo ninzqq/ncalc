@@ -57,6 +57,9 @@ class NCalc extends StatelessWidget {
           theme: ThemeData(
             textTheme: const TextTheme(
               bodyMedium: TextStyle(color: Colors.black87),
+              labelMedium: TextStyle(color: Colors.black87, fontSize: 16),
+              displayLarge: TextStyle(color: Colors.black87, fontSize: 44),
+              displayMedium: TextStyle(color: Colors.black87, fontSize: 32),
             ),
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: Colors.cyan.shade500,
@@ -68,6 +71,9 @@ class NCalc extends StatelessWidget {
           darkTheme: ThemeData(
             textTheme: const TextTheme(
               bodyMedium: TextStyle(color: Colors.white54),
+              labelMedium: TextStyle(color: Colors.white60, fontSize: 16),
+              displayLarge: TextStyle(color: Colors.white60, fontSize: 44),
+              displayMedium: TextStyle(color: Colors.white60, fontSize: 32),
             ),
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: const Color.fromARGB(255, 20, 25, 46),

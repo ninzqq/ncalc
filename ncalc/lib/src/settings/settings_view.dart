@@ -15,9 +15,15 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.colorScheme.primary,
       appBar: AppBar(
-        title: const Text('Settings'),
+        backgroundColor: theme.colorScheme.primary,
+        title: Text(
+          'Settings',
+          style: TextStyle(color: theme.colorScheme.primaryFixed),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -30,18 +36,28 @@ class SettingsView extends StatelessWidget {
           value: controller.themeMode,
           // Call the updateThemeMode method any time the user selects a theme.
           onChanged: controller.updateThemeMode,
-          items: const [
+          dropdownColor: theme.colorScheme.secondary,
+          items: [
             DropdownMenuItem(
               value: ThemeMode.dark,
-              child: Text('Dark Theme'),
+              child: Text(
+                'Dark Theme',
+                style: theme.textTheme.labelMedium,
+              ),
             ),
             DropdownMenuItem(
               value: ThemeMode.system,
-              child: Text('System Theme'),
+              child: Text(
+                'System Theme',
+                style: theme.textTheme.labelMedium,
+              ),
             ),
             DropdownMenuItem(
               value: ThemeMode.light,
-              child: Text('Light Theme'),
+              child: Text(
+                'Light Theme',
+                style: TextStyle(color: theme.colorScheme.primaryFixed),
+              ),
             ),
           ],
         ),

@@ -107,8 +107,8 @@ class Display extends ConsumerWidget {
     return SizedBox(
       height: 100,
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: 0,
+        padding: EdgeInsets.only(
+          top: isInput ? 10 : 0,
           left: 20,
           right: 20,
           bottom: 8.0,
@@ -119,17 +119,15 @@ class Display extends ConsumerWidget {
           //expands: false,
           keyboardType: TextInputType.none,
           controller: isInput ? inputController : outputController,
-          style: TextStyle(
-            fontSize: isInput ? 44 : 32,
-            fontFamily: 'Roboto',
-            color: Colors.white70,
-          ),
+          style: isInput
+              ? theme.textTheme.displayLarge
+              : theme.textTheme.displayMedium,
           textAlign: TextAlign.end,
-          decoration: const InputDecoration.collapsed(
+          decoration: InputDecoration.collapsed(
             hintText: '0',
-            hintStyle: TextStyle(
-              color: Colors.white70,
-            ),
+            hintStyle: isInput
+                ? theme.textTheme.displayLarge
+                : theme.textTheme.displayMedium,
           ),
         ),
       ),
