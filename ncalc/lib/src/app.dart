@@ -67,6 +67,7 @@ class NCalc extends StatelessWidget {
               surface: Colors.cyan.shade500, // background color "dark"
               surfaceBright: Colors.grey.shade200, // background color "light"
               primaryFixed: Colors.black,
+              tertiary: Colors.blue,
             ),
           ),
           darkTheme: ThemeData(
@@ -84,6 +85,7 @@ class NCalc extends StatelessWidget {
               surfaceBright: const Color.fromARGB(
                   255, 40, 78, 136), // background color "light"
               primaryFixed: Colors.white54,
+              tertiary: Colors.lightBlue,
             ),
             //colorScheme: ColorScheme.fromSwatch().copyWith(
             //  primary: Colors.cyan.shade500,

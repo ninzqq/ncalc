@@ -28,7 +28,7 @@ class Display extends ConsumerWidget {
           _buildDisplayRow(context, ref, true),
           _buildDisplayRow(context, ref, false),
           SizedBox(
-            height: 44,
+            height: 50,
             child: Padding(
               padding: const EdgeInsets.only(
                 left: 23.0,
@@ -65,7 +65,7 @@ class Display extends ConsumerWidget {
         top: 0,
         left: 16,
         right: 16,
-        bottom: 0,
+        bottom: 8,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,7 +105,7 @@ class Display extends ConsumerWidget {
     TextEditingController outputController = calculatorState.outputController;
     var theme = Theme.of(context);
     return SizedBox(
-      height: 100,
+      height: 104,
       child: Padding(
         padding: EdgeInsets.only(
           top: isInput ? 10 : 0,

@@ -14,35 +14,37 @@ class CalculatorButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var calculatorState = ref.read(calculatorProvider);
+    var theme = Theme.of(context);
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: InkWell(
-          onTap: () {
-            if (value == "C") {
-              calculator.clear();
-            } else if (value == ":)") {
-            } else if (value == "=") {
-              calculator.calculateExpression(
-                  calculatorState.inputController.text, true);
-            } else {
-              calculator.addCharacterToCursorPosition(value);
-            }
-          },
+        child: Material(
+          color: Colors.transparent,
           child: Ink(
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
+            child: InkWell(
+              onTap: () {
+                if (value == "C") {
+                  calculator.clear();
+                } else if (value == ":)") {
+                } else if (value == "=") {
+                  calculator.calculateExpression(
+                      calculatorState.inputController.text, true);
+                } else {
+                  calculator.addCharacterToCursorPosition(value);
+                }
+              },
+              //splashColor: theme.colorScheme.tertiary,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(40),
               ),
-            ),
-            child: Center(
-              child: Text(
-                value,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w500,
+              child: Center(
+                child: Text(
+                  value,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
