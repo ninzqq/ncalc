@@ -33,7 +33,7 @@ class CalculatorButton extends ConsumerWidget {
                   calculator.addCharacterToCursorPosition(value);
                 }
               },
-              //splashColor: theme.colorScheme.tertiary,
+              splashColor: theme.colorScheme.tertiary,
               borderRadius: const BorderRadius.all(
                 Radius.circular(40),
               ),
