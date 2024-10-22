@@ -77,13 +77,6 @@ class Display extends ConsumerWidget {
               fontFamily: 'Roboto',
             ),
           ),
-          const Text(
-            'v0.1',
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Roboto',
-            ),
-          ),
           IconButton(
             icon: const Icon(Icons.settings),
             color: theme.colorScheme.primaryFixed,
