@@ -1,4 +1,4 @@
-package com.example.ncalc
+package com.jndevworks.ncalc
 
 import io.flutter.embedding.android.FlutterActivity
 
